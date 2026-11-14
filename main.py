@@ -63,58 +63,71 @@ def scene():
     # warm walnut table, broad plank bands and vignette
     for y in range(H):
         for x in range(W):
-            d=math.hypot((x-512)/720,(y-500)/720)
+            d=math.hypot((x-512)/690,(y-490)/650)
             grain=5*math.sin(x*.025+math.sin(y*.013)*3)+3*math.sin(x*.09+y*.006)
             plank=7 if (y//180)%2 else 0
-            v=max(0,1-d*.55)
-            put(x,y,(31*v+grain+plank,17*v+grain*.48+plank*.35,12*v+grain*.18),1)
+            v=max(0,1-d*.68)
+            glow=max(0,1-d*1.12)
+            put(x,y,(38*v+13*glow+grain+plank,20*v+6*glow+grain*.48+plank*.35,12*v+2*glow+grain*.18),1)
     for yy in (175,356,540,720,900): line(0,yy,W,yy,3,(20,10,8),.45)
     # bowl grounding shadows, then ceramic
-    ellipse(520,720,405,245,(5,3,3),.48,24)
+    ellipse(520,727,423,258,(4,2,2),.62,28)
     radial_ellipse(512,555,425,358,(27,43,82),(8,16,42),3)
     ellipse(512,520,407,316,(81,120,169),1,2)
     ellipse(512,519,395,302,(15,31,75),1,2)
     ellipse(512,508,373,278,(117,155,192),1,2)
-    radial_ellipse(512,500,355,260,(250,218,151),(164,104,47),2)
+    radial_ellipse(512,500,355,260,(255,222,144),(145,76,31),2)
     # dark inner rim to give bowl depth
     ellipse(512,506,360,264,(35,45,62),.36,2)
-    radial_ellipse(512,497,344,248,(250,225,167),(177,116,54),2)
+    radial_ellipse(512,497,344,248,(248,204,116),(154,80,29),2)
     # oil pools
     for x,y,rx,ry in [(360,448,58,15),(621,470,63,18),(455,615,70,13),(673,560,40,12)]: ellipse(x,y,rx,ry,(202,91,24),.25,3)
     # nori behind food
     poly([(300,342),(390,371),(365,509),(274,476)],(13,27,28)); poly([(626,336),(713,315),(739,460),(650,483)],(11,25,26))
     poly([(311,351),(323,354),(294,468),(283,465)],(75,106,85),.22); poly([(641,347),(652,343),(680,462),(670,466)],(81,111,87),.22)
-    # noodles shadow/top mass
-    for j in range(42):
-        ang=j*math.pi*2/42; r=75+j*5.7
+    # raised, generous noodle mattress: dense concentric sweeps keep broth as accents
+    ellipse(512,526,244,143,(75,43,18),.30,18)
+    for j in range(58):
+        ang=j*math.pi*2/58; r=52+j*4.35
         x1=512+math.cos(ang)*r; y1=520+math.sin(ang)*r*.54
         x2=512+math.cos(ang+1.85)*r*.75; y2=510+math.sin(ang+1.85)*r*.42
-        bezier([(x1+4,y1+8),(x1-80*math.sin(ang),y1+40),(x2+70*math.sin(ang),y2-35),(x2+4,y2+8)],10,(104,66,27),.42)
-    for j in range(42):
-        ang=j*math.pi*2/42+.16; r=75+j*5.7
+        bezier([(x1+4,y1+9),(x1-80*math.sin(ang),y1+43),(x2+70*math.sin(ang),y2-32),(x2+4,y2+9)],11,(91,51,18),.49)
+    for j in range(58):
+        ang=j*math.pi*2/58+.12; r=52+j*4.35
         x1=512+math.cos(ang)*r; y1=510+math.sin(ang)*r*.54
         x2=512+math.cos(ang+1.85)*r*.75; y2=500+math.sin(ang+1.85)*r*.42
-        col=((242,193,91),(224,157,57),(255,212,114))[j%3]
-        bezier([(x1,y1),(x1-80*math.sin(ang),y1+40),(x2+70*math.sin(ang),y2-35),(x2,y2)],7,col,.96)
+        col=((255,220,126),(239,177,65),(199,122,37),(255,235,153))[j%4]
+        bezier([(x1,y1),(x1-80*math.sin(ang),y1+40),(x2+70*math.sin(ang),y2-35),(x2,y2)],7.5,col,.97)
+    # the high central tangle catches the light, establishing a mound rather than a flat spiral
+    for j in range(15):
+        x=430+j*12; y=477+(j%3)*12
+        bezier([(x,y),(x+14,431-j%4*7),(570+j*5,445+j%5*8),(598-j*4,501+j%4*8)],8,(255,218,120) if j%2 else (220,151,48),.96)
     # toppings currently basic: pork, eggs, naruto
     for cx,cy in [(365,575),(665,550)]:
         ellipse(cx+7,cy+11,94,64,(61,35,22),.35,5); ellipse(cx,cy,91,61,(108,54,30)); ellipse(cx,cy,82,54,(202,132,93))
         ellipse(cx-10,cy-5,54,29,(238,171,126),.38); ellipse(cx+23,cy+9,44,18,(133,65,44),.42)
         for rr in (22,36,49): ellipse(cx,cy,rr,rr*.57,(126,63,43),.16,2)
+        for j in range(4):
+            yy=cy-22+j*15
+            bezier([(cx-52,yy),(cx-22,yy-9),(cx+18,yy+10),(cx+56,yy+3)],3,(91,42,25),.36)
     for cx,cy in [(445,403),(580,650)]:
-        ellipse(cx+5,cy+9,66,49,(51,33,20),.3,4); ellipse(cx,cy,62,46,(245,236,207)); ellipse(cx+4,cy+1,31,29,(229,118,22)); ellipse(cx-4,cy-7,13,10,(255,186,57),.8,2); ellipse(cx+12,cy+10,12,8,(130,53,12),.3,2)
+        ellipse(cx+5,cy+10,73,54,(51,33,20),.34,4); ellipse(cx,cy,69,51,(247,238,211)); ellipse(cx+4,cy+1,35,33,(224,105,14)); ellipse(cx-7,cy-10,17,12,(255,201,65),.95,3); ellipse(cx+11,cy+10,15,10,(126,46,9),.3,2); ellipse(cx-1,cy-9,18,8,(255,243,166),.62,4)
     for cx,cy in [(686,414),(286,513)]:
         ellipse(cx,cy,38,30,(250,239,215)); ellipse(cx,cy,24,18,(238,137,154),.9)
         # spiral suggestion
         bezier([(cx+20,cy),(cx+18,cy-18),(cx-20,cy-20),(cx-15,cy+2)],4,(223,75,113)); bezier([(cx-15,cy+2),(cx-9,cy+15),(cx+12,cy+12),(cx+8,cy-1)],4,(223,75,113))
     # Improvement pass: broth sparkle, chili lacquer, and a crisp scallion mound
-    ellipse(488,454,110,24,(255,248,210),.22,10)
-    ellipse(548,470,65,12,(255,255,235),.18,7)
-    ellipse(738,520,37,9,(255,235,174),.24,5)
-    for j in range(33):
+    ellipse(488,454,110,24,(255,248,210),.28,10)
+    ellipse(548,470,65,12,(255,255,235),.24,7)
+    ellipse(738,520,37,9,(255,235,174),.32,5)
+    ellipse(305,555,35,11,(255,236,176),.25,6)
+    for x,y,rx,ry in [(334,430,34,9),(715,457,47,12),(425,653,38,9),(675,615,28,8)]:
+        ellipse(x,y,rx,ry,(218,115,31),.30,4)
+        ellipse(x-rx*.18,y-ry*.24,rx*.38,ry*.22,(255,207,98),.32,3)
+    for j in range(52):
         ang=RNG.random()*math.tau; rr=RNG.uniform(250,330)
         x=512+math.cos(ang)*rr; y=498+math.sin(ang)*rr*.66
-        ellipse(x,y,RNG.uniform(1.3,3.2),RNG.uniform(1.0,2.3),(255,232,177),RNG.uniform(.30,.62),1)
+        ellipse(x,y,RNG.uniform(1.3,3.2),RNG.uniform(1.0,2.3),(255,232,177),RNG.uniform(.30,.68),1)
     # red-orange aromatic oil: broken glossy curve at the exposed broth edge
     bezier([(286,610),(360,657),(465,677),(530,645)],5,(180,54,16),.65)
     bezier([(548,643),(611,615),(674,611),(724,638)],4,(193,59,15),.60)
@@ -139,7 +152,7 @@ def scene():
     for base, phase in [(410,0.1),(524,1.7),(645,3.2),(715,4.5)]:
         for k in range(8):
             y=365-k*22; x=base+math.sin(k*.8+phase)*15+k*1.1
-            ellipse(x,y,14-k*.7,27-k*1.4,(255,245,221),.055,12)
+            ellipse(x,y,14-k*.7,27-k*1.4,(255,245,221),.082,12)
     # porcelain and yolk pinpoints catch the upper-left warm key light
     ellipse(208,447,45,12,(145,188,222),.20,8)
     ellipse(431,390,13,8,(255,255,239),.72,3)
